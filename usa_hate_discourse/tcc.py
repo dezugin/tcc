@@ -25,7 +25,7 @@ warnings.filterwarnings("ignore")
 count = 0
 counter = 0
 unique_names = set()
-train_file = "tweets.jsonl"
+train_file = "/home/goode/Desktop/usa_hate_discourse/tweets.jsonl"
 with open(train_file, 'r') as file:
     for line in file:
         data = json.loads(line)
@@ -38,8 +38,8 @@ with open(train_file, 'r') as file:
             unique_names.add(name)
             counter += 1
         count = count + 1
-
-print(counter)
 print(unique_names)
-with open('output.txt', 'w') as file:
-    file.write(counter)
+print(counter)
+
+with open('users_2020.txt', 'w') as file:
+    file.write(str(counter))
