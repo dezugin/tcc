@@ -16,3 +16,5 @@ elusa/tweets.jsonl
 elusa/users.jsonl
 elusa/vote_intention_surveys.jsonl
 elusa/data_analisys_hash_tags.jsonl
+tweets_2016_trimmed.jsonl
+tweets_2020_trimmed.jsonl
