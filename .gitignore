@@ -18,3 +18,8 @@ elusa/vote_intention_surveys.jsonl
 elusa/data_analisys_hash_tags.jsonl
 tweets_2016_trimmed.jsonl
 tweets_2020_trimmed.jsonl
+2020_mention.jsonl
+2020_mention2.jsonl
+trump_2020.txt
+biden_2020.txt
+counter.txt

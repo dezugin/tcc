@@ -1,0 +1,5 @@
+Total number of tweets: 4
+Total character count: 440
+Average characters per tweet: 110.00
+Total word count: 71
+Average words per tweet: 17.75
