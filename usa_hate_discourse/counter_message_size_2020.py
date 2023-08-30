@@ -1,15 +1,19 @@
 import json
 
 count = 0
+stahp = 61128170
 counterBiden = 0
 counterTrump = 0
 #unique_names = set()
 train_file = "/home/zezin/Documents/tcc/usa_hate_discourse/tweets.jsonl"
-total_tweets = 0
-total_chars = 0
-total_words = 0
+total_tweets = 61128415
+total_chars = 6549684276
+total_words = 948424777
 with open(train_file, 'r') as file:
     for line in file:
+        if count <= stahp:
+            count = count + 1
+            continue
         data = json.loads(line)
         text = data['tweet']['text']
         chars = len(text)
@@ -17,14 +21,14 @@ with open(train_file, 'r') as file:
         total_chars += chars
         total_words += words
         total_tweets += 1
-        with open('2020_tweets.jsonl', 'a') as file:
+        with open('2020_tweets.txt', 'a') as file:
             file.write(str(total_tweets)+"\n")   
         with open('2020_words.txt', 'a') as file:
             file.write(str(total_words)+"\n")
         with open('2020_chars.txt', 'a') as file:
             file.write(str(total_chars)+"\n")
-        if count == 3:
-            break
+        #if count == 3:
+         #   break
         
         
         count = count + 1
