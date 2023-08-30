@@ -4,12 +4,16 @@ count = 0
 counterHillary = 0
 counterTrump = 0
 #unique_names = set()
+total_tweets = 2705408
+total_chars = 317805325
+total_words = 45483931
+stahp = 2704822
 train_file = "/home/zezin/Documents/tcc/elusa/tweets.jsonl"
 with open(train_file, 'r') as file:
     for line in file:
-        #if count <= stahp:
-         #   count = count + 1
-         #   continue
+        if count <= stahp:
+            count = count + 1
+            continue
         data = json.loads(line)
         text = data['tweet']['text']
         chars = len(text)
