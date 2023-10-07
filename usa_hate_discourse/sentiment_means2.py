@@ -11,11 +11,11 @@ senti.setSentiStrengthLanguageFolderPath('/home/zezin/SentiStrength_Data/')
 count = 0
 features_list = []
 train_file = "/home/zezin/Documents/tcc/2020_mention.jsonl"
-intermediate_file = "/home/zezin/Documents/tcc/2020_sentiment_analysis.jsonl"
+intermediate_file = "/home/zezin/Documents/tcc/2020_sentiment_analysis2.jsonl"
 with open(train_file, 'r') as file, open(intermediate_file, 'a') as outfile,open('count.txt', 'a') as countfile:
     for line in file:
-        #if count == 3:
-        #    break
+        if count == 3:
+            break
         data = json.loads(line)
         text = data['tweet']['text']
         result = senti.getSentiment(text)
@@ -94,13 +94,12 @@ xmeans_instance = xmeans.xmeans(df, initial_clusters)
 xmeans_instance.process()
 clusters = xmeans_instance.get_clusters()
 
-final_file = "/home/zezin/Documents/tcc/usa_hate_discourse/2020_mention_clustered.jsonl"
+final_file = "/home/zezin/Documents/tcc/usa_hate_discourse/2020_extensive_mention_clustered2.jsonl"
 with open(intermediate_file, 'r') as file, open(final_file, 'a') as outfile,open('count.txt', 'a') as countfile:
     for idx, line in enumerate(file):
-        #if idx == 3:
-        #    break
+        if idx == 3:
+            break
         data = json.loads(line)
         data['cluster'] = next((i for i, cluster in enumerate(clusters) if idx in cluster), None)
-        outfile.write(json.dumps(data) + '\n')
-        countfile.write(str(idx)+"\n")  
+        outfile.write(json.dumps(data) + '\n')  
         print(idx)
