@@ -16,7 +16,7 @@ with open(file_path, 'r') as file:
     for line in file:
         print(count)
         #if count > 2:
-         #   break
+        #S    break
         data = json.loads(line)
         text = data['tweet']['text']
         keywords = kw_model.extract_keywords(text, keyphrase_ngram_range=(1, 1), top_n=5)
