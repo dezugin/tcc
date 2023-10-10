@@ -9,7 +9,7 @@ kw_model = KeyBERT(model="distilbert-base-nli-mean-tokens")
 keywords_counter = defaultdict(int)
 
 # Path to your jsonl file
-file_path = "/home/zezin/Documents/tcc/elusa/week.jsonl"
+file_path = "/home/zezin/Documents/tcc/elusa/week2.jsonl"
 count = 0
 # Loop through the JSONL file and extract keywords for each tweet's text
 with open(file_path, 'r') as file:
@@ -31,7 +31,7 @@ top_keywords = sorted_keywords[:100]
 print("Top 100 keywords and their counts:")
 for keyword, count in top_keywords:
     print(keyword, count)
-week1_result_path = "/home/zezin/Documents/tcc/elusa/week1_result.txt"
+week1_result_path = "/home/zezin/Documents/tcc/elusa/week2_result.txt"
 with open(week1_result_path, 'a') as file:
     file.write("Top 100 keywords and their counts:\n")
     for keyword, count in top_keywords:
