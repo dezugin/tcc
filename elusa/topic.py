@@ -14,33 +14,33 @@ topic_model = BERTopic(embedding_model=sentence_model,
 
 # Prepare data
 documents = []
-file_path = "/home/zezin/Documents/tcc/elusa/week1p2.jsonl"
+file_path = "/home/zezin/Documents/tcc/elusa/week1p3.jsonl"
 count = 0
-batch_size = 1000
-min_batch = 500
+batch_size = 100000
+min_batch = 10000
 load = False
 final_load = False
 len_file = 0
 final_counter = 0
 with open(file_path, 'r') as file:
     len_file = num_lines = sum(1 for _ in file)
-    final_counter = len_file - 999
+    final_counter = len_file - 10000
 # Extract text data from JSONL file
 with open(file_path, 'r') as file, open('/home/zezin/Documents/tcc/elusa/counter.txt','a') as countfile:
     batch_counter = 0
     for line in file:
         print (count)
         countfile.write((str(count))+'\n')
-        ##if count > 2000:
-         ##   break
-        """if count < final_counter:#1759035: #1758999:
+        #if count > 200000:
+         #   break
+        """if count < final_counter:#1759035: #1758999:839926
             load = True
             count += 1
             continue
         if load:
-            topic_model = BERTopic.load("/home/zezin/Documents/tcc/elusa/week_model")
+            topic_model = BERTopic.load("/home/zezin/Documents/tcc/elusa/week1p3_model")
             load = False
-"""
+        """
         data = json.loads(line)
         text = data['tweet']['text']
         documents.append(text)
@@ -51,7 +51,7 @@ with open(file_path, 'r') as file, open('/home/zezin/Documents/tcc/elusa/counter
             topics, _ = topic_model.fit_transform(documents)
             documents = []  # Clear the batch
             batch_counter = 0  # Reset the counter
-            topic_model.save("/home/zezin/Documents/tcc/elusa/week1p2_model")
+            topic_model.save("/home/zezin/Documents/tcc/elusa/week1p3_model")
     if documents and len(documents) > min_batch:
        ### print("len=",len(documents))
         topics, _ = topic_model.fit_transform(documents)        
@@ -59,9 +59,9 @@ with open(file_path, 'r') as file, open('/home/zezin/Documents/tcc/elusa/counter
 
 # Visualize topics
 fig = topic_model.visualize_topics()
-fig.write_html("/home/zezin/Documents/tcc/elusa/week1p2.html")
+fig.write_html("/home/zezin/Documents/tcc/elusa/week1p3.html")
 fig = topic_model.visualize_barchart()
-fig.write_html("/home/zezin/Documents/tcc/elusa/week1p2bar.html")
+fig.write_html("/home/zezin/Documents/tcc/elusa/week1p3bar.html")
 fig.show()
 fig = topic_model.visualize_heatmap()
-fig.write_html("/home/zezin/Documents/tcc/elusa/week1p2heat.html")
+fig.write_html("/home/zezin/Documents/tcc/elusa/week1p3heat.html")
