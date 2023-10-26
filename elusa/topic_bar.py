@@ -18,15 +18,19 @@ topic_model = BERTopic(embedding_model=sentence_model,
 
 # Stream data and process it incrementally
 file_path = '/home/zezin/Documents/tcc/elusa/week.jsonl'
+output_file = "/home/zezin/Documents/tcc/elusa/week.csv"
 batch_size = 100000
 documents = []
 dates = []
 min_batch = 80000
-
+count = 0
+all_batches = []
 with open(file_path, 'r') as f, open('/home/zezin/Documents/tcc/elusa/counter.txt','a') as countfile:
     batch_counter = 0
     for line in f:
         print (count)
+        if count >= 200003:#522: #
+            break
         countfile.write((str(count))+'\n')
         tweet = json.loads(line)
         documents.append(tweet['tweet']['text'])
@@ -38,13 +42,23 @@ with open(file_path, 'r') as f, open('/home/zezin/Documents/tcc/elusa/counter.tx
             topics, _ = topic_model.fit_transform(documents)
             documents = []  # Clear the batch
             batch_counter = 0
+            a = {'date': dates, 'topic': topics}
+            df = pd.DataFrame.from_dict(a, orient='index')
+            df = df.transpose()
+            all_batches.append(df)
             topic_model.save("/home/zezin/Documents/tcc/elusa/week_model")
+            df.to_csv(output_file, mode='a', header=header, index=False)
     if documents and len(documents) > min_batch:
         topics, _ = topic_model.fit_transform(documents)
         topic_model.save("/home/zezin/Documents/tcc/elusa/week_model")
+        a = {'date': dates, 'topic': topics}
+        df = pd.DataFrame.from_dict(a, orient='index')
+        df = df.transpose()
+        all_batches.append(df)
+        df.to_csv(output_file, mode='a', header=header, index=False)
 
 # Create a dataframe with dates and topics
-df = pd.DataFrame({'date': dates, 'topic': topics})
+df = pd.concat(all_batches, ignore_index=True)
 
 # Filter to keep only dates for a week
 #df = df[df['date'].between('start_date', 'end_date')]  # replace with your dates
