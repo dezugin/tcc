@@ -4,13 +4,14 @@ import plotly.express as px
 from bertopic import BERTopic
 from sentence_transformers import SentenceTransformer
 from datetime import datetime
-
+import os
 from sklearn.feature_extraction.text import CountVectorizer
 
 
 vectorizer_model = CountVectorizer(stop_words="english")
 sentence_model = SentenceTransformer("paraphrase-MiniLM-L6-v2")
 topic_model = BERTopic(embedding_model=sentence_model, 
+                        low_memory=True,
                         calculate_probabilities=False, 
                         top_n_words=20, 
                         nr_topics="auto",
@@ -19,18 +20,28 @@ topic_model = BERTopic(embedding_model=sentence_model,
 # Stream data and process it incrementally
 file_path = '/home/zezin/Documents/tcc/elusa/week.jsonl'
 output_file = "/home/zezin/Documents/tcc/elusa/week.csv"
-batch_size = 100000
+model_file = '/home/zezin/Documents/tcc/elusa/week_model'
+#topic_model = BERTopic.load(model_file)
+batch_size = 522
 documents = []
 dates = []
-min_batch = 80000
 count = 0
-all_batches = []
+pathexists = False
+if os.path.exists(output_file):
+    pathexists = True
+len_file = 0
+final_counter = 1758509 - 524
+#with open(file_path, 'r') as file:
+#    len_file = num_lines = sum(1 for _ in file)
+#    final_counter = len_file - 524
 with open(file_path, 'r') as f, open('/home/zezin/Documents/tcc/elusa/counter.txt','a') as countfile:
     batch_counter = 0
     for line in f:
+        #if count <= final_counter: #1565663#1456565: #10000:#200003:#522: #
+        #    count += 1
+        #    print (count)
+        #    continue
         print (count)
-        if count >= 200003:#522: #
-            break
         countfile.write((str(count))+'\n')
         tweet = json.loads(line)
         documents.append(tweet['tweet']['text'])
@@ -42,30 +53,31 @@ with open(file_path, 'r') as f, open('/home/zezin/Documents/tcc/elusa/counter.tx
             topics, _ = topic_model.fit_transform(documents)
             documents = []  # Clear the batch
             batch_counter = 0
-            a = {'date': dates, 'topic': topics}
+            a = {'date': dates, 'topic_n': topics}
             df = pd.DataFrame.from_dict(a, orient='index')
             df = df.transpose()
-            all_batches.append(df)
-            topic_model.save("/home/zezin/Documents/tcc/elusa/week_model")
-            df.to_csv(output_file, mode='a', header=header, index=False)
-    if documents and len(documents) > min_batch:
-        topics, _ = topic_model.fit_transform(documents)
-        topic_model.save("/home/zezin/Documents/tcc/elusa/week_model")
-        a = {'date': dates, 'topic': topics}
-        df = pd.DataFrame.from_dict(a, orient='index')
-        df = df.transpose()
-        all_batches.append(df)
-        df.to_csv(output_file, mode='a', header=header, index=False)
+            counted_df = df.groupby(['date', 'topic_n']).size().reset_index(name='counts')
+            if pathexists:
+                existing_df = pd.read_csv(output_file)
+                merged_df = pd.merge(existing_df, counted_df, on=['date', 'topic_n'], how='outer').fillna(0)
+                merged_df['counts'] = merged_df['counts_x'] + merged_df['counts_y']
+                merged_df = merged_df.drop(columns=['counts_x', 'counts_y'])
+    
+            else:
+                merged_df = counted_df
+            topic_model.save(model_file)
+            merged_df.to_csv(output_file, index=False)
 
-# Create a dataframe with dates and topics
-df = pd.concat(all_batches, ignore_index=True)
 
-# Filter to keep only dates for a week
-#df = df[df['date'].between('start_date', 'end_date')]  # replace with your dates
 
-# Group by day and topic and count the number of tweets
-grouped = df.groupby(['date', 'topic']).size().reset_index(name='counts')
+df = pd.read_csv(output_file)
+topic_name_mapping = {topic_num: ", ".join([word for word, _ in words]) for topic_num, words in topic_model.get_topics().items()}
+df['topic'] = df['topic_n'].map(topic_name_mapping)
+
+
+#grouped = df.groupby(['date', 'topic']).size().reset_index(name='counts')
 
 # Plot the results using Plotly
-fig = px.bar(grouped, x='date', y='counts', color='topic', title="Number of Tweets per Topic over a Week")
+fig = px.bar(df, x='date', y='counts', color='topic', title="Number of Tweets per Topic over a Week")
+fig.write_html("/home/zezin/Documents/tcc/elusa/week.html")
 fig.show()
