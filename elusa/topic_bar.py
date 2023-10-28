@@ -65,6 +65,7 @@ with open(file_path, 'r') as f, open('/home/zezin/Documents/tcc/elusa/counter.tx
     
             else:
                 merged_df = counted_df
+                pathexists = True
             topic_model.save(model_file)
             merged_df.to_csv(output_file, index=False)
 
