@@ -47,7 +47,7 @@ with open(file_path1, 'r') as f, open('/home/zezin/Documents/tcc/elusa/counter.t
         tweet = json.loads(line)
         documents.append(tweet['tweet']['text'])
         tweet_date = datetime.utcfromtimestamp(tweet['tweet']['created_at']['$date'] / 1000).strftime('%Y-%m-%d')
-        print(tweet_date)
+        #print(tweet_date)
         dates.append(tweet_date)
         batch_counter += 1
         count = count + 1
@@ -79,7 +79,7 @@ with open(file_path2, 'r') as f, open('/home/zezin/Documents/tcc/elusa/counter.t
         tweet = json.loads(line)
         documents.append(tweet['tweet']['text'])
         tweet_date = datetime.utcfromtimestamp(tweet['tweet']['created_at']['$date'] / 1000).strftime('%Y-%m-%d')
-        print(tweet_date)
+        #print(tweet_date)
         dates.append(tweet_date)
         batch_counter += 1
         count = count + 1
@@ -93,9 +93,6 @@ with open(file_path2, 'r') as f, open('/home/zezin/Documents/tcc/elusa/counter.t
             counted_df = df.groupby(['date', 'topic_n']).size().reset_index(name='counts')
             existing_df = pd.read_csv(output_file)
             merged_df = pd.merge(existing_df, counted_df, on=['date', 'topic_n'], how='outer').fillna(0)
-            print(counted_df)
-            print(existing_df)
-            print(merged_df)
             merged_df['counts'] = merged_df['counts_x'] + merged_df['counts_y']
             merged_df = merged_df.drop(columns=['counts_x', 'counts_y'])
             topic_model.save(model_file)
@@ -114,7 +111,7 @@ with open(file_path3, 'r') as f, open('/home/zezin/Documents/tcc/elusa/counter.t
         tweet = json.loads(line)
         documents.append(tweet['tweet']['text'])
         tweet_date = datetime.utcfromtimestamp(tweet['tweet']['created_at']['$date'] / 1000).strftime('%Y-%m-%d')
-        print(tweet_date)
+        #print(tweet_date)
         dates.append(tweet_date)
         batch_counter += 1
         count = count + 1
@@ -146,7 +143,7 @@ with open(file_path4, 'r') as f, open('/home/zezin/Documents/tcc/elusa/counter.t
         tweet = json.loads(line)
         documents.append(tweet['tweet']['text'])
         tweet_date = datetime.utcfromtimestamp(tweet['tweet']['created_at']['$date'] / 1000).strftime('%Y-%m-%d')
-        print(tweet_date)
+        #print(tweet_date)
         dates.append(tweet_date)
         batch_counter += 1
         count = count + 1
@@ -178,7 +175,7 @@ with open(file_path5, 'r') as f, open('/home/zezin/Documents/tcc/elusa/counter.t
         tweet = json.loads(line)
         documents.append(tweet['tweet']['text'])
         tweet_date = datetime.utcfromtimestamp(tweet['tweet']['created_at']['$date'] / 1000).strftime('%Y-%m-%d')
-        print(tweet_date)
+        #print(tweet_date)
         dates.append(tweet_date)
         batch_counter += 1
         count = count + 1
@@ -210,7 +207,7 @@ with open(file_path6, 'r') as f, open('/home/zezin/Documents/tcc/elusa/counter.t
         tweet = json.loads(line)
         documents.append(tweet['tweet']['text'])
         tweet_date = datetime.utcfromtimestamp(tweet['tweet']['created_at']['$date'] / 1000).strftime('%Y-%m-%d')
-        print(tweet_date)
+        #print(tweet_date)
         dates.append(tweet_date)
         batch_counter += 1
         count = count + 1
@@ -242,7 +239,7 @@ with open(file_path7, 'r') as f, open('/home/zezin/Documents/tcc/elusa/counter.t
         tweet = json.loads(line)
         documents.append(tweet['tweet']['text'])
         tweet_date = datetime.utcfromtimestamp(tweet['tweet']['created_at']['$date'] / 1000).strftime('%Y-%m-%d')
-        print(tweet_date)
+        #print(tweet_date)
         dates.append(tweet_date)
         batch_counter += 1
         count = count + 1
