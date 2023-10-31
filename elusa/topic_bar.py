@@ -270,7 +270,9 @@ fig = px.bar(df, x='date', y='counts', color='topic', title="Number of Tweets pe
 fig.write_html("/home/zezin/Documents/tcc/elusa/week.html")
 fig.show()
 
-
+print(topic_name_mapping)
+with open('/home/zezin/Documents/tcc/elusa/topic_mapping.txt', 'w') as f:
+    f.write(str(topic_name_mapping))
 
 plt.figure(figsize=(15, 10))
 sns.barplot(data=df, x='date', y='counts', hue='topic_n', ci=None)
@@ -333,6 +335,3 @@ plt.tight_layout()
 # Show the plot
 plt.show()
 
-print(topic_name_mapping)
-with open('/home/zezin/Documents/tcc/elusa/topic_mapping.txt', 'w') as f:
-    f.write(str(topic_name_mapping))
