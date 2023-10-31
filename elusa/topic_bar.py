@@ -19,7 +19,7 @@ topic_model = BERTopic(embedding_model=sentence_model,
                         vectorizer_model=vectorizer_model)
 
 # Stream data and process it incrementally
-file_path = "/home/zezin/Documents/tcc/elusa/week1d1.jsonl"
+file_path1 = "/home/zezin/Documents/tcc/elusa/week1d1.jsonl"
 file_path2 = "/home/zezin/Documents/tcc/elusa/week1d2.jsonl"
 file_path3 = "/home/zezin/Documents/tcc/elusa/week1d3.jsonl"
 file_path4 = "/home/zezin/Documents/tcc/elusa/week1d4.jsonl"
@@ -34,36 +34,6 @@ documents = []
 dates = []
 count = 0
 len_file = 0
-with open(file_path, 'r') as f, open('/home/zezin/Documents/tcc/elusa/counter.txt','a') as countfile:
-    batch_counter = 0
-    for line in f:
-        #if count <= final_counter: #1565663#1456565: #10000:#200003:#522: #
-        #    count += 1
-        #    print (count)
-        #    continue
-        print ('a'+count)
-        countfile.write((str(count))+'\n')
-        tweet = json.loads(line)
-        documents.append(tweet['tweet']['text'])
-        tweet_date = datetime.utcfromtimestamp(tweet['tweet']['created_at']['$date'] / 1000).strftime('%Y-%m-%d')
-        print(tweet_date)
-        dates.append(tweet_date)
-        batch_counter += 1
-        count = count + 1
-        if batch_counter >= batch_size:
-            topics, _ = topic_model.fit_transform(documents)
-            documents = []  # Clear the batch
-            batch_counter = 0
-            a = {'date': dates, 'topic_n': topics}
-            df = pd.DataFrame.from_dict(a, orient='index')
-            df = df.transpose()
-            counted_df = df.groupby(['date', 'topic_n']).size().reset_index(name='counts')
-            existing_df = pd.read_csv(output_file)
-            merged_df = pd.merge(existing_df, counted_df, on=['date', 'topic_n'], how='outer').fillna(0)
-            merged_df['counts'] = merged_df['counts_x'] + merged_df['counts_y']
-            merged_df = merged_df.drop(columns=['counts_x', 'counts_y'])
-            topic_model.save(model_file)
-            merged_df.to_csv(output_file, index=False)
 with open(file_path1, 'r') as f, open('/home/zezin/Documents/tcc/elusa/counter.txt','a') as countfile:
     batch_counter = 0
     for line in f:
@@ -71,7 +41,8 @@ with open(file_path1, 'r') as f, open('/home/zezin/Documents/tcc/elusa/counter.t
         #    count += 1
         #    print (count)
         #    continue
-        print ('b'+count)
+        
+        print ('a'+str(count))
         countfile.write((str(count))+'\n')
         tweet = json.loads(line)
         documents.append(tweet['tweet']['text'])
@@ -94,7 +65,8 @@ with open(file_path1, 'r') as f, open('/home/zezin/Documents/tcc/elusa/counter.t
             merged_df = merged_df.drop(columns=['counts_x', 'counts_y'])
             topic_model.save(model_file)
             merged_df.to_csv(output_file, index=False)
-
+            
+dates = []
 with open(file_path2, 'r') as f, open('/home/zezin/Documents/tcc/elusa/counter.txt','a') as countfile:
     batch_counter = 0
     for line in f:
@@ -102,7 +74,7 @@ with open(file_path2, 'r') as f, open('/home/zezin/Documents/tcc/elusa/counter.t
         #    count += 1
         #    print (count)
         #    continue
-        print ('c'+count)
+        print ('b'+str(count))
         countfile.write((str(count))+'\n')
         tweet = json.loads(line)
         documents.append(tweet['tweet']['text'])
@@ -121,11 +93,15 @@ with open(file_path2, 'r') as f, open('/home/zezin/Documents/tcc/elusa/counter.t
             counted_df = df.groupby(['date', 'topic_n']).size().reset_index(name='counts')
             existing_df = pd.read_csv(output_file)
             merged_df = pd.merge(existing_df, counted_df, on=['date', 'topic_n'], how='outer').fillna(0)
+            print(counted_df)
+            print(existing_df)
+            print(merged_df)
             merged_df['counts'] = merged_df['counts_x'] + merged_df['counts_y']
             merged_df = merged_df.drop(columns=['counts_x', 'counts_y'])
             topic_model.save(model_file)
             merged_df.to_csv(output_file, index=False)
-
+            
+dates = []
 with open(file_path3, 'r') as f, open('/home/zezin/Documents/tcc/elusa/counter.txt','a') as countfile:
     batch_counter = 0
     for line in f:
@@ -133,7 +109,7 @@ with open(file_path3, 'r') as f, open('/home/zezin/Documents/tcc/elusa/counter.t
         #    count += 1
         #    print (count)
         #    continue
-        print ('d'+count)
+        print ('c'+str(count))
         countfile.write((str(count))+'\n')
         tweet = json.loads(line)
         documents.append(tweet['tweet']['text'])
@@ -156,7 +132,8 @@ with open(file_path3, 'r') as f, open('/home/zezin/Documents/tcc/elusa/counter.t
             merged_df = merged_df.drop(columns=['counts_x', 'counts_y'])
             topic_model.save(model_file)
             merged_df.to_csv(output_file, index=False)
-
+            
+dates = []
 with open(file_path4, 'r') as f, open('/home/zezin/Documents/tcc/elusa/counter.txt','a') as countfile:
     batch_counter = 0
     for line in f:
@@ -164,7 +141,7 @@ with open(file_path4, 'r') as f, open('/home/zezin/Documents/tcc/elusa/counter.t
         #    count += 1
         #    print (count)
         #    continue
-        print ('e'+count)
+        print ('d'+str(count))
         countfile.write((str(count))+'\n')
         tweet = json.loads(line)
         documents.append(tweet['tweet']['text'])
@@ -187,7 +164,8 @@ with open(file_path4, 'r') as f, open('/home/zezin/Documents/tcc/elusa/counter.t
             merged_df = merged_df.drop(columns=['counts_x', 'counts_y'])
             topic_model.save(model_file)
             merged_df.to_csv(output_file, index=False)
-
+            
+dates = []
 with open(file_path5, 'r') as f, open('/home/zezin/Documents/tcc/elusa/counter.txt','a') as countfile:
     batch_counter = 0
     for line in f:
@@ -195,7 +173,7 @@ with open(file_path5, 'r') as f, open('/home/zezin/Documents/tcc/elusa/counter.t
         #    count += 1
         #    print (count)
         #    continue
-        print ('e'+count)
+        print ('e'+str(count))
         countfile.write((str(count))+'\n')
         tweet = json.loads(line)
         documents.append(tweet['tweet']['text'])
@@ -218,7 +196,8 @@ with open(file_path5, 'r') as f, open('/home/zezin/Documents/tcc/elusa/counter.t
             merged_df = merged_df.drop(columns=['counts_x', 'counts_y'])
             topic_model.save(model_file)
             merged_df.to_csv(output_file, index=False)
-
+            
+dates = []
 with open(file_path6, 'r') as f, open('/home/zezin/Documents/tcc/elusa/counter.txt','a') as countfile:
     batch_counter = 0
     for line in f:
@@ -226,7 +205,7 @@ with open(file_path6, 'r') as f, open('/home/zezin/Documents/tcc/elusa/counter.t
         #    count += 1
         #    print (count)
         #    continue
-        print ('f'+count)
+        print ('f'+str(count))
         countfile.write((str(count))+'\n')
         tweet = json.loads(line)
         documents.append(tweet['tweet']['text'])
@@ -249,7 +228,8 @@ with open(file_path6, 'r') as f, open('/home/zezin/Documents/tcc/elusa/counter.t
             merged_df = merged_df.drop(columns=['counts_x', 'counts_y'])
             topic_model.save(model_file)
             merged_df.to_csv(output_file, index=False)
-
+            
+dates = []
 with open(file_path7, 'r') as f, open('/home/zezin/Documents/tcc/elusa/counter.txt','a') as countfile:
     batch_counter = 0
     for line in f:
@@ -257,7 +237,7 @@ with open(file_path7, 'r') as f, open('/home/zezin/Documents/tcc/elusa/counter.t
         #    count += 1
         #    print (count)
         #    continue
-        print ('g'+count)
+        print ('g'+str(count))
         countfile.write((str(count))+'\n')
         tweet = json.loads(line)
         documents.append(tweet['tweet']['text'])
@@ -280,9 +260,7 @@ with open(file_path7, 'r') as f, open('/home/zezin/Documents/tcc/elusa/counter.t
             merged_df = merged_df.drop(columns=['counts_x', 'counts_y'])
             topic_model.save(model_file)
             merged_df.to_csv(output_file, index=False)
-
-
-
+            
 df = pd.read_csv(output_file)
 topic_name_mapping = {topic_num: ", ".join([word for word, _ in words]) for topic_num, words in topic_model.get_topics().items()}
 df['topic'] = df['topic_n'].map(topic_name_mapping)
@@ -296,9 +274,7 @@ fig.write_html("/home/zezin/Documents/tcc/elusa/week.html")
 fig.show()
 
 
-sums = df.groupby('topic')['counts'].sum().reset_index()
-sums['date'] = 'All Days'
-df = pd.concat([df, sums], ignore_index=True)
+
 plt.figure(figsize=(15, 10))
 sns.barplot(data=df, x='date', y='counts', hue='topic_n', ci=None)
 
@@ -316,3 +292,50 @@ plt.tight_layout()
 
 # Show the plot
 plt.show()
+
+sums = df.groupby('topic_n')['counts'].sum().reset_index()
+sums['date'] = 'All Days'
+
+
+plt.figure(figsize=(15, 10))
+sns.barplot(data=sums, x='date', y='counts', hue='topic_n', ci=None)
+
+# Set the title and labels
+plt.title('Number of Tweets per Topic per Day')
+plt.xlabel('Date')
+plt.ylabel('Number of Tweets')
+plt.legend(title='Topics', bbox_to_anchor=(1.05, 1), loc='upper left')
+
+# Rotate the x-axis labels for better readability
+plt.xticks(rotation=45)
+
+# Adjust the layout
+plt.tight_layout()
+
+# Show the plot
+plt.show()
+
+df = pd.concat([df, sums], ignore_index=True)
+
+
+plt.figure(figsize=(15, 10))
+sns.barplot(data=df, x='date', y='counts', hue='topic_n', ci=None)
+
+# Set the title and labels
+plt.title('Number of Tweets per Topic per Day')
+plt.xlabel('Date')
+plt.ylabel('Number of Tweets')
+plt.legend(title='Topics', bbox_to_anchor=(1.05, 1), loc='upper left')
+
+# Rotate the x-axis labels for better readability
+plt.xticks(rotation=45)
+
+# Adjust the layout
+plt.tight_layout()
+
+# Show the plot
+plt.show()
+
+print(topic_name_mapping)
+with open('/home/zezin/Documents/tcc/elusa/topic_mapping.txt', 'w') as f:
+    f.write(str(topic_name_mapping))
