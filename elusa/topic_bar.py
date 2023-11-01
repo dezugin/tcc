@@ -19,15 +19,17 @@ topic_model = BERTopic(embedding_model=sentence_model,
                         vectorizer_model=vectorizer_model)
 
 # Stream data and process it incrementally
-file_path1 = "/home/zezin/Documents/tcc/elusa/week1d1.jsonl"
-file_path2 = "/home/zezin/Documents/tcc/elusa/week1d2.jsonl"
-file_path3 = "/home/zezin/Documents/tcc/elusa/week1d3.jsonl"
-file_path4 = "/home/zezin/Documents/tcc/elusa/week1d4.jsonl"
-file_path5 = "/home/zezin/Documents/tcc/elusa/week1d5.jsonl"
-file_path6 = "/home/zezin/Documents/tcc/elusa/week1d6.jsonl"
-file_path7 = "/home/zezin/Documents/tcc/elusa/week1d7.jsonl"
-output_file = "/home/zezin/Documents/tcc/elusa/week.csv"
-model_file = '/home/zezin/Documents/tcc/elusa/week_model'
+file_path1 = "/home/zezin/Documents/tcc/elusa/week2d1.jsonl"
+file_path2 = "/home/zezin/Documents/tcc/elusa/week2d2.jsonl"
+file_path3 = "/home/zezin/Documents/tcc/elusa/week2d3.jsonl"
+file_path4 = "/home/zezin/Documents/tcc/elusa/week2d4.jsonl"
+file_path5 = "/home/zezin/Documents/tcc/elusa/week2d5.jsonl"
+file_path6 = "/home/zezin/Documents/tcc/elusa/week2d6.jsonl"
+file_path7 = "/home/zezin/Documents/tcc/elusa/week2d7.jsonl"
+output_file = "/home/zezin/Documents/tcc/elusa/week2.csv"
+model_file = '/home/zezin/Documents/tcc/elusa/week2_model'
+map_file = '/home/zezin/Documents/tcc/elusa/topic_mapping2.txt'
+week_html = "/home/zezin/Documents/tcc/elusa/week2.html"
 #topic_model = BERTopic.load(model_file)
 batch_size = 522
 documents = []
@@ -267,11 +269,11 @@ df['topic'] = df['topic_n'].map(topic_name_mapping)
 
 # Plot the results using Plotly
 fig = px.bar(df, x='date', y='counts', color='topic', title="Number of Tweets per Topic over a Week")
-fig.write_html("/home/zezin/Documents/tcc/elusa/week.html")
+fig.write_html(week_html)
 fig.show()
 
 print(topic_name_mapping)
-with open('/home/zezin/Documents/tcc/elusa/topic_mapping.txt', 'w') as f:
+with open(map_file, 'w') as f:
     f.write(str(topic_name_mapping))
 
 plt.figure(figsize=(15, 10))
