@@ -19,23 +19,24 @@ topic_model = BERTopic(embedding_model=sentence_model,
                         vectorizer_model=vectorizer_model)
 
 # Stream data and process it incrementally
-file_path1 = "/home/zezin/Documents/tcc/elusa/week2d1.jsonl"
-file_path2 = "/home/zezin/Documents/tcc/elusa/week2d2.jsonl"
-file_path3 = "/home/zezin/Documents/tcc/elusa/week2d3.jsonl"
-file_path4 = "/home/zezin/Documents/tcc/elusa/week2d4.jsonl"
-file_path5 = "/home/zezin/Documents/tcc/elusa/week2d5.jsonl"
-file_path6 = "/home/zezin/Documents/tcc/elusa/week2d6.jsonl"
-file_path7 = "/home/zezin/Documents/tcc/elusa/week2d7.jsonl"
-output_file = "/home/zezin/Documents/tcc/elusa/week2.csv"
-model_file = '/home/zezin/Documents/tcc/elusa/week2_model'
-map_file = '/home/zezin/Documents/tcc/elusa/topic_mapping2.txt'
-week_html = "/home/zezin/Documents/tcc/elusa/week2.html"
-#topic_model = BERTopic.load(model_file)
+file_path1 = "/home/zezin/Documents/tcc/elusa/week3d1.jsonl"
+file_path2 = "/home/zezin/Documents/tcc/elusa/week3d2.jsonl"
+file_path3 = "/home/zezin/Documents/tcc/elusa/week3d3.jsonl"
+file_path4 = "/home/zezin/Documents/tcc/elusa/week3d4.jsonl"
+file_path5 = "/home/zezin/Documents/tcc/elusa/week3d5.jsonl"
+file_path6 = "/home/zezin/Documents/tcc/elusa/week3d6.jsonl"
+file_path7 = "/home/zezin/Documents/tcc/elusa/week3d7.jsonl"
+output_file = "/home/zezin/Documents/tcc/elusa/week3.csv"
+model_file = '/home/zezin/Documents/tcc/elusa/week3_model'
+map_file = '/home/zezin/Documents/tcc/elusa/topic_mapping3.txt'
+week_html = "/home/zezin/Documents/tcc/elusa/week3.html"
+topic_model = BERTopic.load(model_file)
 batch_size = 522
 documents = []
 dates = []
 count = 0
 len_file = 0
+
 with open(file_path1, 'r') as f, open('/home/zezin/Documents/tcc/elusa/counter.txt','a') as countfile:
     batch_counter = 0
     for line in f:
