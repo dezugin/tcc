@@ -30,13 +30,13 @@ output_file = "/home/zezin/Documents/tcc/elusa/week3.csv"
 model_file = '/home/zezin/Documents/tcc/elusa/week3_model'
 map_file = '/home/zezin/Documents/tcc/elusa/topic_mapping3.txt'
 week_html = "/home/zezin/Documents/tcc/elusa/week3.html"
-#topic_model = BERTopic.load(model_file)
+topic_model = BERTopic.load(model_file)
 batch_size = 522
 documents = []
 dates = []
 count = 0
 len_file = 0
-
+"""
 with open(file_path1, 'r') as f, open('/home/zezin/Documents/tcc/elusa/counter.txt','a') as countfile:
     batch_counter = 0
     for line in f:
@@ -70,6 +70,7 @@ with open(file_path1, 'r') as f, open('/home/zezin/Documents/tcc/elusa/counter.t
             merged_df.to_csv(output_file, index=False)
             
 dates = []
+count = 0
 with open(file_path2, 'r') as f, open('/home/zezin/Documents/tcc/elusa/counter.txt','a') as countfile:
     batch_counter = 0
     for line in f:
@@ -102,6 +103,7 @@ with open(file_path2, 'r') as f, open('/home/zezin/Documents/tcc/elusa/counter.t
             merged_df.to_csv(output_file, index=False)
             
 dates = []
+count = 0
 with open(file_path3, 'r') as f, open('/home/zezin/Documents/tcc/elusa/counter.txt','a') as countfile:
     batch_counter = 0
     for line in f:
@@ -134,6 +136,7 @@ with open(file_path3, 'r') as f, open('/home/zezin/Documents/tcc/elusa/counter.t
             merged_df.to_csv(output_file, index=False)
             
 dates = []
+count = 0
 with open(file_path4, 'r') as f, open('/home/zezin/Documents/tcc/elusa/counter.txt','a') as countfile:
     batch_counter = 0
     for line in f:
@@ -166,6 +169,7 @@ with open(file_path4, 'r') as f, open('/home/zezin/Documents/tcc/elusa/counter.t
             merged_df.to_csv(output_file, index=False)
             
 dates = []
+count = 0
 with open(file_path5, 'r') as f, open('/home/zezin/Documents/tcc/elusa/counter.txt','a') as countfile:
     batch_counter = 0
     for line in f:
@@ -196,15 +200,17 @@ with open(file_path5, 'r') as f, open('/home/zezin/Documents/tcc/elusa/counter.t
             merged_df = merged_df.drop(columns=['counts_x', 'counts_y'])
             topic_model.save(model_file)
             merged_df.to_csv(output_file, index=False)
-            
+"""            
 dates = []
+count = 0
+final_counter = 121172
 with open(file_path6, 'r') as f, open('/home/zezin/Documents/tcc/elusa/counter.txt','a') as countfile:
     batch_counter = 0
     for line in f:
-        #if count <= final_counter: #1565663#1456565: #10000:#200003:#522: #
-        #    count += 1
-        #    print (count)
-        #    continue
+        if count <= final_counter: #1565663#1456565: #10000:#200003:#522: #
+            count += 1
+            print (count)
+            continue
         print ('f'+str(count))
         countfile.write((str(count))+'\n')
         tweet = json.loads(line)
@@ -230,6 +236,7 @@ with open(file_path6, 'r') as f, open('/home/zezin/Documents/tcc/elusa/counter.t
             merged_df.to_csv(output_file, index=False)
             
 dates = []
+count = 0
 with open(file_path7, 'r') as f, open('/home/zezin/Documents/tcc/elusa/counter.txt','a') as countfile:
     batch_counter = 0
     for line in f:
