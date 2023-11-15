@@ -1,0 +1,1 @@
+{-1: 'mental health, president, people, world mental, potus, health day, bitcoin, blockchain, foxnews, crass comment', 0: 'hillary, vote, hillaryclinton, clinton, repealthe19th, gop, hillary clinton, campaign, election, republican', 1: 'realdonaldtrump, joyannreid, wait, see, realdonaldtrump realdonaldtrump, happy, drip, stay, week, today'}
